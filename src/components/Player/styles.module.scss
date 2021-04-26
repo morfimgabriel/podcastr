@@ -1,4 +1,5 @@
 .playerContainer {
+    padding: 3rem 4rem;
     width: 26.5rem;
     height: 100vh; // maximo view porth height
     background: var(--purple-500);
@@ -20,8 +21,16 @@
         font-weight: 600;
     }
 
+    footer {
+        align-self: stretch;
+
+        &.empty {
+            opacity: 0.5;
+        }
+    }
+
     .emptyPlayer {
-        width: 90%;
+        width: 100%;
         height: 20rem;
         border: 1.5px dashed var(--purple-300);
         border-radius: 1.5rem;
@@ -37,7 +46,48 @@
     .progress {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 0.5rem;
         font-size: 0.875rem;
     }
+
+    span {
+        display: inline-block;
+        width: 4rem;
+        text-align: center;
+    }
+
+
+    .slider {
+        flex: 1;
+
+        .emptySlider {
+            width: 100%;
+            height: 4px;
+            background: var(--purple-300);
+            border-radius: 2px;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2.5rem;
+        gap: 1.5rem;
+
+        button {
+            background: transparent;
+            border: 0;
+            font-size: 0;
+
+            &.playButton {
+                width: 4rem;
+                height: 4rem;
+                border-radius: 1rem;
+                background: var(--purple-400);
+            }
+
+        }
+    }
+  
 }
