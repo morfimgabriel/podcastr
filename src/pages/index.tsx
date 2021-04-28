@@ -1,17 +1,19 @@
 import { GetStaticProps } from 'next';
 import { api } from '../services/api';
+import { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString';
+import { PlayerContext } from '../contexts/PlayerContext';
 import styles from './home.module.scss'
+
 
 type Episode = {
   id: string;
   title: string;
   thumbnail: string;
-  description: string;
   members: string;
   duration: number;
   durationAsString: string;
@@ -32,10 +34,12 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
   //    .then(data => console.log(data))
   //}, [])
 
+  const { play } = useContext(PlayerContext)
+
   return (
     <div className={styles.homepage}>
       <section className={styles.latestEpisodes}>
-        <h2> últimos Lançamentos</h2>
+        <h2> Últimos Lançamentos</h2>
         <ul>
           {latestEpisodes.map(episode => {
             return (
@@ -58,7 +62,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span> {episode.durationAsString} </span>
                 </div>
 
-                <button type="button">
+                <button type="button" onClick={() => play(episode)}>
                   <img src="/play-green.svg" alt="Tocar Episódio" />
                 </button>
               </li>
@@ -103,7 +107,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <td style={{ width: 100 }}> {episode.publishedAt} </td>
                   <td> {episode.durationAsString} </td>
                   <td>
-                    <button type="button">
+                    <button type="button" onClick={() => play(episode)}>
                       <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>
@@ -150,7 +154,6 @@ export const getStaticProps: GetStaticProps = async () => {
       publishedAt: format(parseISO(episode.published_at), 'd MMM yy', { locale: ptBR }),
       duration: Number(episode.file.duration),
       durationAsString: convertDurationToTimeString(Number(episode.file.duration)),
-      description: episode.description,
       members: episode.members,
       url: episode.file.url,
 
